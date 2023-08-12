@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -64,4 +65,13 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    // Okhttp
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+
+    // Server Sent Events
+    implementation "com.squareup.okhttp3:okhttp-sse:4.9.3"
+    testImplementation "com.squareup.okhttp3:okhttp-sse:4.9.3"
+
+
 }
