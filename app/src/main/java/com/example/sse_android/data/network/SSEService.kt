@@ -1,5 +1,6 @@
 package com.example.sse_android.data.network
 
+import android.util.Log
 import com.example.sse_android.data.models.Message
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.decodeFromString
@@ -39,6 +40,7 @@ class SSEService {
 
         override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
             super.onEvent(eventSource, id, type, data)
+            Log.i("alitest", "onEvent: $data")
             if (data.isNotEmpty()) {
                 if (data.startsWith("[") and data.endsWith("]")) {
                     val msgData: List<Message> = Json.decodeFromString(data)
@@ -54,6 +56,11 @@ class SSEService {
                     sseMessagesFlow.tryEmit(messages)
                 }
             }
+        }
+
+        override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
+            super.onFailure(eventSource, t, response)
+            Log.i("alitest", "onFailure: $t")
         }
     }
 
