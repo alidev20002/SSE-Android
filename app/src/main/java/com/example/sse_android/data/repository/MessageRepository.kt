@@ -12,4 +12,8 @@ class MessageRepository @Inject constructor(
     fun getMessages(): Flow<List<Message>> {
         return messageRemoteDataSource.getMessages()
     }
+
+    fun sendMessage(text: String) {
+        messageRemoteDataSource.sendMessage(text)
+    }
 }
