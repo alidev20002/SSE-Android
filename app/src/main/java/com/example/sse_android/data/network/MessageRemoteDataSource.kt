@@ -11,4 +11,8 @@ class MessageRemoteDataSource @Inject constructor(
     fun getMessages(): Flow<List<Message>> {
         return sseService.sseMessagesFlow
     }
+
+    fun sendMessage(text: String) {
+        sseService.sendMessage(text)
+    }
 }
