@@ -13,9 +13,9 @@ app.get('/status', (request, response) => response.json({clients: clients.length
 const PORT = 3000;
 
 let clients = [];
-let images = [];
+let messages = [];
 
-function imagesHandler(request, response, next) {
+function messagesHandler(request, response, next) {
     const headers = {
       'Content-Type': 'text/event-stream',
       'Connection': 'keep-alive',
@@ -23,7 +23,7 @@ function imagesHandler(request, response, next) {
     };
     response.writeHead(200, headers);
   
-    const data = `data: ${JSON.stringify(images)}\n\n`;
+    const data = `data: ${JSON.stringify(messages)}\n\n`;
   
     response.write(data);
   
@@ -42,21 +42,21 @@ function imagesHandler(request, response, next) {
     });
 }
   
-app.get('/images', imagesHandler);
+app.get('/messages', messagesHandler);
 
 
-function sendImagesToAll(newImage) {
-    clients.forEach(client => client.response.write(`data: ${JSON.stringify(newImage)}\n\n`))
+function sendMessagesToAll(newMessage) {
+    clients.forEach(client => client.response.write(`data: ${JSON.stringify(newMessage)}\n\n`))
 }
   
-async function addImage(request, respsonse, next) {
-    const newImage = request.body;
-    images.push(newImage);
-    respsonse.json(newImage)
-    return sendImagesToAll(newImage);
+async function addMessage(request, respsonse, next) {
+    const newMessage = request.body;
+    messages.push(newMessage);
+    respsonse.json(newMessage)
+    return sendMessagesToAll(newMessage);
 }
   
-app.post('/images', addImage);
+app.post('/messages', addMessage);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`)
