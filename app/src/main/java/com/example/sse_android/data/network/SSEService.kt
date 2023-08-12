@@ -40,7 +40,7 @@ class SSEService {
         .build()
 
     val sseMessagesFlow = MutableStateFlow<List<Message>>(emptyList())
-    var messages = mutableListOf<Message>()
+    var messages = emptyList<Message>()
 
     private var sseEventSourceListener = object : EventSourceListener() {
 
@@ -49,11 +49,15 @@ class SSEService {
             if (data.isNotEmpty()) {
                 if (data.startsWith("[") and data.endsWith("]")) {
                     val msgData: List<Message> = Json.decodeFromString(data)
-                    messages.addAll(msgData)
+                    val newMessages = messages.toMutableList()
+                    newMessages.addAll(msgData)
+                    messages = newMessages
                     sseMessagesFlow.tryEmit(messages)
                 } else if (data.startsWith("{") and data.endsWith("}")) {
                     val msgData: Message = Json.decodeFromString(data)
-                    messages.add(msgData)
+                    val newMessages = messages.toMutableList()
+                    newMessages.add(msgData)
+                    messages = newMessages
                     sseMessagesFlow.tryEmit(messages)
                 }
             }

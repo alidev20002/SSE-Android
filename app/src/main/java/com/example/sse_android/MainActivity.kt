@@ -23,21 +23,18 @@ import com.example.sse_android.ui.viewmodel.MessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var sseService: SSEService
+
+    private val messageViewModel by viewModels<MessageViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        lifecycleScope.launch {
-//            while (true) {
-//                sseService.sendMessage()
-//                delay(3000)
-//                Log.i("alitest", "onCreate: ${sseService.sseMessagesFlow.value}")
-//            }
-//        }
-
         setContent {
             SSEAndroidTheme {
                 // A surface container using the 'background' color from the theme
@@ -45,11 +42,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ChatScreen(listOf(
-                        Message("hi"),
-                        Message("Hello"),
-                        Message("Good Morning")
-                    ))
+                    ChatScreen(messageViewModel)
                 }
             }
         }
@@ -60,6 +53,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     SSEAndroidTheme {
-        ChatScreen(emptyList())
+
     }
 }
