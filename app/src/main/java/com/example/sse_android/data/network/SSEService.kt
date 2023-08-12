@@ -32,13 +32,6 @@ class SSEService {
         .addHeader("Accept", "text/event-stream")
         .build()
 
-    private val message = Json.encodeToString(Message("hi"))
-
-    private val postMessageRequest = Request.Builder()
-        .method("POST", message.toRequestBody("application/json; charset=utf-8".toMediaType()))
-        .url(POST_MESSAGE_URL)
-        .build()
-
     val sseMessagesFlow = MutableStateFlow<List<Message>>(emptyList())
     var messages = emptyList<Message>()
 
@@ -62,11 +55,6 @@ class SSEService {
                 }
             }
         }
-
-        override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
-            super.onFailure(eventSource, t, response)
-        }
-
     }
 
     init {
@@ -78,7 +66,12 @@ class SSEService {
             .newEventSource(request = sseRequest, listener = sseEventSourceListener)
     }
 
-    fun sendMessage() {
+    fun sendMessage(text: String) {
+        val message = Json.encodeToString(Message(text))
+        val postMessageRequest = Request.Builder()
+            .method("POST", message.toRequestBody("application/json; charset=utf-8".toMediaType()))
+            .url(POST_MESSAGE_URL)
+            .build()
         sseClient.newCall(postMessageRequest).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 // Handle this
