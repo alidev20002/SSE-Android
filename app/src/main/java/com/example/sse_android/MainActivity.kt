@@ -10,9 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.sse_android.data.network.SSEService
 import com.example.sse_android.ui.theme.SSEAndroidTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val sseService = SSEService()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
