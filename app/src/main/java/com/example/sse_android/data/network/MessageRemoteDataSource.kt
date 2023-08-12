@@ -2,8 +2,9 @@ package com.example.sse_android.data.network
 
 import com.example.sse_android.data.models.Message
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MessageRemoteDataSource(
+class MessageRemoteDataSource @Inject constructor(
     private val sseService: SSEService
 ) {
 

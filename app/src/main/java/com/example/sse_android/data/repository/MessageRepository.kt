@@ -3,8 +3,9 @@ package com.example.sse_android.data.repository
 import com.example.sse_android.data.models.Message
 import com.example.sse_android.data.network.MessageRemoteDataSource
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class MessageRepository(
+class MessageRepository @Inject constructor(
     private val messageRemoteDataSource: MessageRemoteDataSource
 ) {
 
