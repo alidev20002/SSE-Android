@@ -9,5 +9,10 @@ import javax.inject.Inject
 class MessageViewModel @Inject constructor(
     private val messageRepository: MessageRepository
 ): ViewModel() {
+
     val messages = messageRepository.getMessages()
+
+    fun sendMessage(text: String) {
+        messageRepository.sendMessage(text)
+    }
 }
