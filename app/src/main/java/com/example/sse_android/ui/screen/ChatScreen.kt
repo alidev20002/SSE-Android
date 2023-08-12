@@ -54,7 +54,12 @@ fun ChatScreen(
                 onValueChange = { textFieldValue = it }
             )
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(
+                onClick = {
+                    messagesViewModel.sendMessage(textFieldValue)
+                    textFieldValue = ""
+                }
+            ) {
                 Text(text = "Send Message")
             }
         }
