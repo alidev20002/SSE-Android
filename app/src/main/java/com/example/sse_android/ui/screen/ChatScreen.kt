@@ -2,7 +2,9 @@ package com.example.sse_android.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -17,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sse_android.data.network.MessageRemoteDataSource
 import com.example.sse_android.data.network.SSEService
 import com.example.sse_android.data.repository.MessageRepository
@@ -38,29 +42,32 @@ fun ChatScreen(
     ) {
         LazyColumn(
             modifier = Modifier
-                .weight(0.8F)
+                .weight(1F),
+            reverseLayout = true
         ) {
-            items(messages) { message ->
+            items(messages.asReversed()) { message ->
                 Text(text = message.text)
             }
         }
 
         Row(
             modifier = Modifier
-                .weight(0.2F)
+                .height(56.dp)
         ) {
             TextField(
                 value = textFieldValue,
-                onValueChange = { textFieldValue = it }
+                onValueChange = { textFieldValue = it },
+                modifier = Modifier.weight(0.7F)
             )
 
             Button(
                 onClick = {
                     messagesViewModel.sendMessage(textFieldValue)
                     textFieldValue = ""
-                }
+                },
+                modifier = Modifier.weight(0.3F)
             ) {
-                Text(text = "Send Message")
+                Text(text = "Send", fontSize = 12.sp, maxLines = 1)
             }
         }
     }
