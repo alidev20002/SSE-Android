@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
+import okhttp3.sse.EventSources
 import java.util.concurrent.TimeUnit
 
 class SSEService {
@@ -32,6 +33,15 @@ class SSEService {
             Log.i("alitest", "onEvent: data -> $data, type -> $type")
         }
 
+    }
+
+    init {
+        initEventSource()
+    }
+
+    private fun initEventSource() {
+        EventSources.createFactory(sseClient)
+            .newEventSource(request = sseRequest, listener = sseEventSourceListener)
     }
 
     companion object {
